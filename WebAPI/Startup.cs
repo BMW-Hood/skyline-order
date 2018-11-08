@@ -30,7 +30,6 @@ namespace WebAPI
             //注册插件
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddOpenTracing();
-            services.AddJaeger("http://tracing-analysis-dc-sh.aliyuncs.com/api/traces");
             services.AddMysql("server=74.82.210.81;port=3306;database=skyline;user=root;password=123456;");
 
             //注册Repository
