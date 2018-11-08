@@ -1,11 +1,14 @@
-﻿using Models;
+﻿using Infrastructure;
+using Models;
 using Repositories;
+using System;
 using WebAPI.DataContracts.Requests;
 
 namespace WebAPI.Services
 {
     public interface IUserService
     {
+        void Add();
         bool Register(RegisterRequest request);
     }
 
@@ -16,6 +19,17 @@ namespace WebAPI.Services
         public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
+        }
+
+        public void Add() {
+            User user = new User {
+                Birthday=DateTime.Now,
+                Email="18351801922@qq.com",
+                Password = EncryptHelper.Md5("123456"),
+                Phone = "18351801922"
+            };
+            _userRepository.Add(user);
+            _userRepository.Commit();
         }
 
         public bool Register(RegisterRequest request)

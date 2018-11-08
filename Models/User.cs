@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models
 {
+    [Table("user")]
     public class User : Base
     {
         [Key]

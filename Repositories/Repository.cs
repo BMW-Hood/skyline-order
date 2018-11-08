@@ -28,6 +28,7 @@ namespace Repositories
         public Repository(MySqlDbContext dbContext)
         {
             DbContext = dbContext;
+            dbContext.Database.EnsureCreated();
         }
 
         public bool Exist(T t)
@@ -37,7 +38,7 @@ namespace Repositories
 
         public void Add(T t)
         {
-            throw new NotImplementedException();
+            DbContext.Add(t);
         }
 
         public void DeleteById(int id)

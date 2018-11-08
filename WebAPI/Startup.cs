@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Repositories;
 using WebAPI.Config;
 using WebAPI.ServiceExtensions;
+using WebAPI.Services;
 
 namespace WebAPI
 {
@@ -29,8 +30,8 @@ namespace WebAPI
             //注册插件
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddOpenTracing();
-            services.AddJaeger("http://192.168.31.214:14268/api/traces");
-            services.AddMysql("Server=192.168.31.214:13306;Database=skyline;User=root;Password=123456;");
+            services.AddJaeger("http://tracing-analysis-dc-sh.aliyuncs.com/api/traces");
+            services.AddMysql("server=74.82.210.81;port=3306;database=skyline;user=root;password=123456;");
 
             //注册Repository
             services.AddScoped<IUserRepository, UserRepository>();
@@ -38,6 +39,7 @@ namespace WebAPI
             //注册Proxy
 
             //注册Service
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,8 +53,6 @@ namespace WebAPI
             {
                 app.UseHsts();
             }
-
-            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

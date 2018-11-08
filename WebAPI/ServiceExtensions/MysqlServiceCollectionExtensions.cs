@@ -9,8 +9,7 @@ namespace WebAPI.ServiceExtensions
     public static class MysqlServiceCollectionExtensions
     {
         public static IServiceCollection AddMysql(this IServiceCollection services, string connectionString)
-        {
-            connectionString = "Server=192.168.31.214:13306;Database=skyline;User=root;Password=123456;";
+        {     
             services.AddDbContextPool<MySqlDbContext>(
                 options => options.UseMySql(connectionString, mysqlOptions =>
                      {
