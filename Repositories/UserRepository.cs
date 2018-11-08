@@ -14,6 +14,7 @@ namespace Repositories
         {
             DbContext = dbContext;
         }
+
         public User FindByPhoneAndPassword(string phone, string password)
         {
             return DbContext.Users.SingleOrDefault(x => x.Phone == phone && x.Password == password);

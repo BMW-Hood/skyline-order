@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OpenTracing;
 using System.Collections.Generic;
 
 namespace WebAPI.Controllers
@@ -8,21 +7,10 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ValuesController : BaseController
     {
-        private ITracer _tracer;
-
-        public ValuesController(ITracer tracer)
-        {
-            _tracer = tracer;
-        }
-
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            _tracer.ActiveSpan?.Log(new Dictionary<string, object> {
-                { "event", "OrderPlaced" },
-                { "customer", "customer" },
-            });
             return new string[] { "value1", "value2" };
         }
 
@@ -37,7 +25,6 @@ namespace WebAPI.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
-
         }
 
         // PUT api/values/5

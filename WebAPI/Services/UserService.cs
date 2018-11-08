@@ -9,6 +9,7 @@ namespace WebAPI.Services
     public interface IUserService
     {
         void Add();
+
         bool Register(RegisterRequest request);
     }
 
@@ -21,10 +22,12 @@ namespace WebAPI.Services
             _userRepository = userRepository;
         }
 
-        public void Add() {
-            User user = new User {
-                Birthday=DateTime.Now,
-                Email="18351801922@qq.com",
+        public void Add()
+        {
+            User user = new User
+            {
+                Birthday = DateTime.Now,
+                Email = "18351801922@qq.com",
                 Password = EncryptHelper.Md5("123456"),
                 Phone = "18351801922"
             };

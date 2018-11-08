@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Repositories;
+using SkyWalking.AspNetCore;
 using WebAPI.Config;
 using WebAPI.ServiceExtensions;
 using WebAPI.Services;
@@ -28,8 +29,13 @@ namespace WebAPI
             _appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
 
             //注册插件
+            services.AddSkyWalking(option =>
+            {
+                option.ApplicationCode = "Skyline";
+                option.DirectServers = "ip172-18-0-26-bfht2liv9dig00cchumg-11800.direct.labs.play-with-docker.com";
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddOpenTracing();
+
             services.AddMysql("server=74.82.210.81;port=3306;database=skyline;user=root;password=123456;");
 
             //注册Repository

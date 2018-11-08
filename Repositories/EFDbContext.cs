@@ -5,11 +5,10 @@ namespace Repositories
 {
     public class MySqlDbContext : DbContext
     {
-        public MySqlDbContext(DbContextOptions<MySqlDbContext> options):base(options)
+        public MySqlDbContext(DbContextOptions<MySqlDbContext> options) : base(options)
         {
-
         }
-        public DbSet<User> Users { get; set; }
 
+        public DbSet<User> Users { get; set; }
     }
 }
