@@ -32,7 +32,7 @@ namespace WebAPI
             services.AddSkyWalking(option =>
             {
                 option.ApplicationCode = "Skyline";
-                option.DirectServers = "ip172-18-0-26-bfht2liv9dig00cchumg-11800.direct.labs.play-with-docker.com";
+                option.DirectServers = "127.168.31.214:11800";
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
