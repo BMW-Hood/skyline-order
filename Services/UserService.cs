@@ -4,7 +4,7 @@ using Models;
 using Repositories;
 using System;
 
-namespace WebAPI.Services
+namespace Services
 {
     public interface IUserService
     {

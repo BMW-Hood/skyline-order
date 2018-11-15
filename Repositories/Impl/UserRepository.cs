@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using Common;
+using Models;
 using System.Linq;
 
 namespace Repositories
@@ -10,9 +11,9 @@ namespace Repositories
 
     public class UserRepository : Repository<User>, IUserRepository
     {
-        public UserRepository(MySqlDbContext dbContext) : base(dbContext)
+        public UserRepository(IDatabaseFactory databaseFactory,AppSettings settings) : base(databaseFactory, settings)
         {
-            DbContext = dbContext;
+            
         }
 
         public User FindByPhoneAndPassword(string phone, string password)

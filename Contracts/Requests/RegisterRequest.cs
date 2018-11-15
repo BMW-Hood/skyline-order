@@ -1,8 +1,8 @@
-﻿using Infrastructure;
+﻿using Common;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebAPI.DataContracts.Requests
+namespace Contracts.Requests
 {
     public class RegisterRequest
     {
