@@ -76,9 +76,11 @@ namespace WebAPI
             {
                 app.UseHsts();
             }
+
+            app.UseJaegerTracing();
             app.UseMvc();
             app.UseMySql(connectionString);
-            app.UseMiddleware<TracingMiddleWare>();
+
         }
     }
 }
