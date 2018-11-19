@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Repositories;
 using Repositories.Impl;
 using Services;
+using WebAPI.Middlewares;
 using WebAPI.ServiceExtensions;
 
 
@@ -46,10 +47,10 @@ namespace WebAPI
             services.AddJaegerTracing(tracingCollectorString);
 
             //注册metrics(监控)
-
+            services.AddMetrics();
 
             //注册 Logging(日志)
-
+            
 
             //注册Repository
             services.AddScoped<IDatabaseFactory, DatabaseFactory>();
@@ -77,6 +78,7 @@ namespace WebAPI
             }
             app.UseMvc();
             app.UseMySql(connectionString);
+            app.UseMiddleware<TracingMiddleWare>();
         }
     }
 }

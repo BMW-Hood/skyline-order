@@ -12,7 +12,7 @@ namespace WebAPI.ServiceExtensions
         {
             services.AddSingleton<ITracer>(serviceProvider =>
             {
-                ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>().AddConsole().AddDebug();
+                ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>().AddConsole(minLevel: LogLevel.Information).AddDebug();
                 string serviceName = serviceProvider.GetRequiredService<IHostingEnvironment>().ApplicationName;
                 var tracer = GetTracer(serviceName, loggerFactory, collectionStr);
                 return tracer;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore;
+﻿using App.Metrics.AspNetCore;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace WebAPI
@@ -12,7 +13,8 @@ namespace WebAPI
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseUrls("http://*:5000")
+                //添加 Metrics(App.Metrics)
+                .UseMetrics()
                 .UseStartup<Startup>();
     }
 }
