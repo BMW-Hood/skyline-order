@@ -1,4 +1,5 @@
-﻿using App.Metrics.AspNetCore;
+﻿using App.Metrics;
+using App.Metrics.AspNetCore;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
@@ -14,6 +15,9 @@ namespace WebAPI
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 //添加 Metrics(App.Metrics)
+                .ConfigureMetricsWithDefaults(builder=> {
+                    builder.Report.ToInfluxDb("http://74.82.210.81:8086", "metricsdatabase");
+                })
                 .UseMetrics()
                 .UseStartup<Startup>();
     }
