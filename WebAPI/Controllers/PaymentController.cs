@@ -2,6 +2,7 @@
 using Contracts.Requests;
 using Contracts.Responses;
 using Microsoft.AspNetCore.Mvc;
+using OpenTracing;
 using Services;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,11 @@ namespace WebAPI.Controllers
     public class PaymentController : BaseController
     {
         private IPaymentService _paymentService;
-        public PaymentController(IPaymentService paymentService)
+        private ITracer _tracer;
+        public PaymentController(IPaymentService paymentService,ITracer tracer)
         {
             _paymentService = paymentService;
+            _tracer = tracer;
         }
 
         [HttpGet]

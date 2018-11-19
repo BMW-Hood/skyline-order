@@ -19,10 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Jaeger" Version="0.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
-    <PackageReference Include="SkyWalking.AspNetCore" Version="0.3.0" />
   </ItemGroup>
 
   <ItemGroup>
