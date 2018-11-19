@@ -42,8 +42,14 @@ namespace WebAPI
             //注册MySql
             services.AddMysql(connectionString);
 
-            //注册Tracing
+            //注册 Tracing(跟踪)
             services.AddJaegerTracing(tracingCollectorString);
+
+            //注册metrics(监控)
+
+
+            //注册 Logging(日志)
+
 
             //注册Repository
             services.AddScoped<IDatabaseFactory, DatabaseFactory>();
