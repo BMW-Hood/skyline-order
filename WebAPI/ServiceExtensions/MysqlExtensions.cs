@@ -31,7 +31,7 @@ namespace WebAPI.ServiceExtensions
             builderDb.UseMySql(connectionString);
             using (var context = new MySqlDbContext(builderDb.Options))
             {
-                context.Database.EnsureCreated();
+                context.Database.Migrate();
             }
             return app;
         }

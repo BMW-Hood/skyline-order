@@ -24,8 +24,8 @@ namespace WebAPI.Controllers
             _tracer = tracer;
         }
 
-        [HttpGet]
-        public IActionResult Get([FromQuery]PaymentQueryRequest paymentQuery)
+        [HttpPost]
+        public IActionResult Post([FromQuery]PaymentQueryRequest paymentQuery)
         {
             var response = _paymentService.QueryPayments(paymentQuery);
             return Ok(response);
@@ -38,12 +38,6 @@ namespace WebAPI.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
-        public IActionResult Post([FromBody] PaymentDto payment)
-        {
-
-            return Ok();
-        }
 
 
     }

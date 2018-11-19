@@ -11,7 +11,7 @@ namespace Repositories.Impl
         private readonly IDatabaseFactory _databaseFactory;
         private MySqlDbContext dbContext;
         private string connectionString;
-        public UnitOfWork(IDatabaseFactory databaseFactory, AppSettings settings)
+        public UnitOfWork(IDatabaseFactory databaseFactory, IAppSettings settings)
         {
             connectionString = settings.ConnectionString;
             _databaseFactory = databaseFactory;

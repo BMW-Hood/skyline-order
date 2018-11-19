@@ -11,7 +11,7 @@ namespace Repositories
 
     public class UserRepository : Repository<User>, IUserRepository
     {
-        public UserRepository(IDatabaseFactory databaseFactory,AppSettings settings) : base(databaseFactory, settings)
+        public UserRepository(IDatabaseFactory databaseFactory, IAppSettings settings) : base(databaseFactory, settings)
         {
             
         }

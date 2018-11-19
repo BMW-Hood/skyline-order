@@ -11,7 +11,7 @@ namespace Common
     }
    public class AppSettings: IAppSettings
     {
-        private const string DB = "skyline";
+        private const string DB = "Skyline";
         private IConfiguration _configuration;
         public AppSettings(IConfiguration configuration)
         {

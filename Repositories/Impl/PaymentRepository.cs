@@ -35,7 +35,7 @@ namespace Repositories
 
     public class PaymentRepository : Repository<Payment>, IPaymentRepository
     {
-        public PaymentRepository(IDatabaseFactory databaseFactory, AppSettings settings) : base(databaseFactory, settings)
+        public PaymentRepository(IDatabaseFactory databaseFactory, IAppSettings settings) : base(databaseFactory, settings)
         {
         }
 

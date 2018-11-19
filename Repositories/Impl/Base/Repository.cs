@@ -17,9 +17,10 @@ namespace Repositories
         protected MySqlDbContext dbContext;
         protected IDatabaseFactory _databaseFactory;
         private string connectionString;
-        public Repository(IDatabaseFactory databaseFactory,AppSettings settings)
+        public Repository(IDatabaseFactory databaseFactory, IAppSettings settings)
         {
             connectionString = settings.ConnectionString;
+            _databaseFactory = databaseFactory;
             dbContext = DbContext;
 
         }
@@ -125,8 +126,10 @@ namespace Repositories
             pageIndex = pageIndex < 1 ? 1 : pageIndex;
             pageSize = pageSize < 1 ? 10 : pageSize;
             var skip = (pageIndex - 1) * pageSize;
+            var query2 = DbSet.Where(where);
+            var count = query2.Count();
             var query = DbSet.Where(where).OrderByDescending(keySelector);
-            var count = query.Count();
+
             var list = query.Skip(skip).Take(pageSize);
             return (count, list == null ? new List<T>() : list.ToList());
         }
