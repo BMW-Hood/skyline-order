@@ -72,6 +72,12 @@ namespace WebAPI.Controllers
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
+            if (!context.ExceptionHandled&&context.Exception!=null)
+            {
+                
+
+                context.Result = Error(context.Exception);
+            }
         }
     }
 }

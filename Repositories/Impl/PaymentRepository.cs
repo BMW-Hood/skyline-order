@@ -42,6 +42,7 @@ namespace Repositories
         
         public (int, IList<Payment>) GetPayments(int pageIndex, int pageSize)
         {
+            throw new Exception("test");
             var pageData = GetListByPage(x=>true,x=>x.PayTime,pageIndex,pageSize);
             return pageData;
         }

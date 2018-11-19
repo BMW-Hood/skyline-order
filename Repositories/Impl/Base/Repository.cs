@@ -22,7 +22,7 @@ namespace Repositories
             connectionString = settings.ConnectionString;
             _databaseFactory = databaseFactory;
             dbContext = DbContext;
-
+            DbSet = dbContext.Set<T>();
         }
         protected MySqlDbContext DbContext => dbContext ??  _databaseFactory.Get(connectionString);
 
