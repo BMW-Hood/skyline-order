@@ -1,4 +1,8 @@
-﻿using Models;
+﻿using AutoMapper;
+using Contracts.Dtos;
+using Contracts.Requests;
+using Contracts.Responses;
+using Models;
 using Repositories;
 using System;
 using System.Collections.Generic;
@@ -9,19 +13,48 @@ namespace Services
 {
     public interface IPaymentService
     {
-        Task<List<Payment>> GetPayments();
+        PaymentViewResponse GetPayments(int pageIndex,int pageSize);
+        PaymentViewResponse QueryPayments(PaymentQueryRequest request);
 
     }
     public class PaymentService : IPaymentService
     {
-        public IPaymentRepository _paymentRepository;
-        public PaymentService(IPaymentRepository paymentRepository)
+        private IPaymentRepository _paymentRepository;
+        private IMapper _mapper { get; set; }
+        public PaymentService(IPaymentRepository paymentRepository, IMapper mapper)
         {
             _paymentRepository = paymentRepository;
+            _mapper = mapper;
         }
-        public Task<List<Payment>> GetPayments()
+
+        public PaymentViewResponse GetPayments(int pageIndex, int pageSize)
         {
-            throw new NotImplementedException();
+           var result = _paymentRepository.GetPayments(pageIndex, pageSize);
+           var total = result.total;
+            var payments= _mapper.Map<IList<PaymentDto>>(result.payments);
+            PaymentViewResponse response = new PaymentViewResponse()
+            {
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                Payments = payments,
+                Total = total
+            };
+            return response;
+        }
+
+        public PaymentViewResponse QueryPayments(PaymentQueryRequest request)
+        {
+            var result = _paymentRepository.GetPayments(request.PageIndex, request.PageSize);
+            var total = result.total;
+            var payments = _mapper.Map<IList<PaymentDto>>(result.payments);
+            PaymentViewResponse response = new PaymentViewResponse()
+            {
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Payments = payments,
+                Total = total
+            };
+            return response;
         }
     }
 }

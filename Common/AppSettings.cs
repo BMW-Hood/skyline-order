@@ -1,11 +1,24 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Common
 {
-   public class AppSettings
+    public interface IAppSettings
     {
-        public string ConnectionString { get; }
+        string ConnectionString { get; }
+    }
+   public class AppSettings: IAppSettings
+    {
+        private const string DB = "skyline";
+        private IConfiguration _configuration;
+        public AppSettings(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+        public string ConnectionString => _configuration.GetConnectionString(DB);
+
+
     }
 }
