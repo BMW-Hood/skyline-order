@@ -48,24 +48,24 @@ namespace Repositories
             return pageData;
         }
 
-        public (int, IList<Payment>) QueryPayments(List<PayChannel> payChannels, List<PayStatus> payStatus, string orderNo, DateTime? date, int pageIndex=1, int pageSize=10)
+        public (int, IList<Payment>) QueryPayments(List<PayChannel> payChannels, List<PayStatus> payStatus, string orderNo, DateTime? date, int pageIndex = 1, int pageSize = 10)
         {
             var query = DbSet.AsQueryable();
             if (payChannels != null && payChannels.Any())
             {
                 query = query.Where(x => payChannels.Contains(x.Channel));
             }
-            if (payChannels != null&&payStatus.Any())
+            if (payChannels != null && payStatus.Any())
             {
-                query = query.Where(x=>payStatus.Contains(x.Status));
+                query = query.Where(x => payStatus.Contains(x.Status));
             }
             if (!string.IsNullOrEmpty(orderNo))
             {
-                query = query.Where(x=>x.OrderNO==orderNo);
+                query = query.Where(x => x.OrderNO == orderNo);
             }
-            if (date!=null)
+            if (date != null)
             {
-                query = query.Where(x => x.PayTime>date&&x.PayTime<date.Value.AddDays(1));
+                query = query.Where(x => x.PayTime > date && x.PayTime < date.Value.AddDays(1));
             }
             var count = query.Count();
             query = query.OrderByDescending(x => x.PayTime);
