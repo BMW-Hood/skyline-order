@@ -44,7 +44,7 @@ namespace Services
 
         public PaymentViewResponse QueryPayments(PaymentQueryRequest request)
         {
-            var result = _paymentRepository.GetPayments(request.PageIndex, request.PageSize);
+            var result = _paymentRepository.QueryPayments(request.PayChannels,request.PayStatuses,request.OrderNO,request.PayTime, request.PageIndex, request.PageSize);
             var total = result.total;
             var payments = _mapper.Map<IList<PaymentDto>>(result.payments);
             PaymentViewResponse response = new PaymentViewResponse()

@@ -30,7 +30,7 @@ namespace WebAPI.Middlewares
             _tracer = tracer;
 
         }
-        public async Task Invoke(HttpContext context)
+        public async Task InvokeAsync(HttpContext context)
         {
 
             _logger.LogInformation($"User IP:{context.Connection.RemoteIpAddress.ToString()}");

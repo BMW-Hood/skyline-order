@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromQuery]PaymentQueryRequest paymentQuery)
+        public IActionResult Post([FromBody]PaymentQueryRequest paymentQuery)
         {
             var response = _paymentService.QueryPayments(paymentQuery);
             return Ok(response);

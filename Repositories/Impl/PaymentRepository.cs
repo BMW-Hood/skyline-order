@@ -50,9 +50,10 @@ namespace Repositories
 
         public (int, IList<Payment>) QueryPayments(List<PayChannel> payChannels, List<PayStatus> payStatus, string orderNo, DateTime date, int pageIndex, int pageSize)
         {
-            Expression<Func<Payment, bool>> where = x => payChannels.Contains(x.Channel) && payStatus.Contains(x.Status)
-            && (!string.IsNullOrWhiteSpace(orderNo) 
-            && x.OrderNO == orderNo) 
+            Expression<Func<Payment, bool>> where = x => 
+            (payChannels!=null&&payChannels.Count>0&& payChannels.Contains(x.Channel))
+            && payStatus.Contains(x.Status)
+            && (!string.IsNullOrWhiteSpace(orderNo) && x.OrderNO == orderNo)            
             && x.PayTime > date 
             && x.PayTime < date.AddDays(1);
             //根据PayTime排序
