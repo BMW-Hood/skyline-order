@@ -23,7 +23,7 @@ namespace Repositories
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        (int total, IList<Payment> payments) QueryPayments(List<PayChannel> payChannel, List<PayStatus> payStatus, string orderNo, DateTime date, int pageIndex, int pageSize);
+        (int total, IList<Payment> payments) QueryPayments(List<PayChannel> payChannel, List<PayStatus> payStatus, string orderNo, DateTime? date, int pageIndex, int pageSize);
 
         /// <summary>
         /// 获取支付记录
@@ -40,27 +40,38 @@ namespace Repositories
         {
         }
 
-        
+
         public (int, IList<Payment>) GetPayments(int pageIndex, int pageSize)
         {
             //throw new BusinessException(BusinessException.ErrorDescriptor.USER_NOT_LOGIN);
-            var pageData = GetListByPage(x=>true,x=>x.PayTime,pageIndex,pageSize);
+            var pageData = GetListByPage(x => true, x => x.PayTime, pageIndex, pageSize);
             return pageData;
         }
 
-        public (int, IList<Payment>) QueryPayments(List<PayChannel> payChannels, List<PayStatus> payStatus, string orderNo, DateTime date, int pageIndex, int pageSize)
+        public (int, IList<Payment>) QueryPayments(List<PayChannel> payChannels, List<PayStatus> payStatus, string orderNo, DateTime? date, int pageIndex=1, int pageSize=10)
         {
-            Expression<Func<Payment, bool>> where = x => 
-            (payChannels!=null&&payChannels.Count>0&& payChannels.Contains(x.Channel))
-            && payStatus.Contains(x.Status)
-            && (!string.IsNullOrWhiteSpace(orderNo) && x.OrderNO == orderNo)            
-            && x.PayTime > date 
-            && x.PayTime < date.AddDays(1);
-            //根据PayTime排序
-            var pageData = GetListByPage(where, x => x.PayTime, pageIndex, pageSize);
-            return pageData;
+            var query = DbSet.AsQueryable();
+            if (payChannels != null && payChannels.Any())
+            {
+                query = query.Where(x => payChannels.Contains(x.Channel));
+            }
+            if (payChannels != null&&payStatus.Any())
+            {
+                query = query.Where(x=>payStatus.Contains(x.Status));
+            }
+            if (!string.IsNullOrEmpty(orderNo))
+            {
+                query = query.Where(x=>x.OrderNO==orderNo);
+            }
+            if (date!=null)
+            {
+                query = query.Where(x => x.PayTime>date&&x.PayTime<date.Value.AddDays(1));
+            }
+            var count = query.Count();
+            query = query.OrderByDescending(x => x.PayTime);
+            var list = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            return (count, list == null ? new List<Payment>() : list.ToList());
         }
-
-
     }
+
 }

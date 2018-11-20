@@ -12,6 +12,6 @@ namespace Contracts.Requests
         public List<PayChannel> PayChannels { get; set; }
         public List<PayStatus> PayStatuses { get; set; }
         public string OrderNO { get; set; } 
-        public DateTime PayTime { get; set; }
+        public DateTime? PayTime { get; set; }
     }
 }

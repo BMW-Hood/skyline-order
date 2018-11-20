@@ -24,7 +24,6 @@ namespace WebAPI
             Configuration = configuration;
             connectionString = configuration.GetConnectionString("Skyline");
             tracingCollectorString = configuration.GetSection("Tracing").GetValue<string>("JaegerCollector");
-
         }
 
 
