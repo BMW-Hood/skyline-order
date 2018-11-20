@@ -16,7 +16,7 @@ namespace WebAPI
             WebHost.CreateDefaultBuilder(args)
                 //添加 Metrics(App.Metrics)
                 .ConfigureMetricsWithDefaults(builder=> {
-                    builder.Report.ToInfluxDb("http://192.168.31.207:18086", "metricsdatabase");
+                    builder.Report.ToInfluxDb("http://74.82.210.81:8086", "metricsdatabase");
                 })
                 .UseMetrics()
                 .UseStartup<Startup>();

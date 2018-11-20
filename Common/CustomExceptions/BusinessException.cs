@@ -1,7 +1,6 @@
 ﻿using System;
-using WebAPI.MvcExtentions;
 
-namespace WebAPI.CustomExceptions
+namespace Common.CustomExceptions
 {
     public class BusinessException : Exception
     {

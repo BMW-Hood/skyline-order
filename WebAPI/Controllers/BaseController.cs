@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Common;
+using Common.CustomExceptions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Linq;
 using System.Net;
-using WebAPI.CustomExceptions;
 using WebAPI.MvcExtentions;
 
 namespace WebAPI.Controllers
@@ -46,12 +47,13 @@ namespace WebAPI.Controllers
             return base.Ok(result);
         }
 
-        public JsonResult Error(Exception exception, HttpStatusCode statusCode = HttpStatusCode.InternalServerError)
+        private JsonResult Error(Exception exception, HttpStatusCode statusCode = HttpStatusCode.InternalServerError)
         {
             object response = null;
             //解析错误
             if (exception != null && exception is BusinessException)
             {
+                statusCode = HttpStatusCode.BadRequest;
                 var businessException = exception as BusinessException;
                 response = ApiResponse<string>.BUSINESSERROR(businessException, "");
             }
@@ -60,8 +62,10 @@ namespace WebAPI.Controllers
             {
                 response = ApiResponse<string>.ERROR(exception.Message, Code.UNKNOW, "未知异常");
             }
+            var result = new JsonResult(response);
 
-            return new JsonResult(response);
+            result.StatusCode = (int)statusCode;
+            return result;
         }
 
         public BadRequestObjectResult BadRequest(object error, string message)
@@ -74,9 +78,8 @@ namespace WebAPI.Controllers
         {
             if (!context.ExceptionHandled&&context.Exception!=null)
             {
-                
-
                 context.Result = Error(context.Exception);
+                context.ExceptionHandled = true;
             }
         }
     }
