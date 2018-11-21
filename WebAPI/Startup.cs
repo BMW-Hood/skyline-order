@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Common;
+﻿using Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -65,7 +64,7 @@ namespace WebAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IAppSettings settings, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IAppSettings settings)
         {
             if (env.IsDevelopment())
             {
@@ -78,7 +77,6 @@ namespace WebAPI
 
             //logger日志
             env.ConfigureNLog("nlog.config");
-            loggerFactory.AddNLog();
             app.UseJaegerTracing();
             app.UseMvc();
             app.UseMySql(connectionString);
