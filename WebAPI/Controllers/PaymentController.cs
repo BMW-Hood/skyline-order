@@ -2,6 +2,7 @@
 using Contracts.Requests;
 using Contracts.Responses;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using OpenTracing;
 using Services;
 using System;
@@ -18,10 +19,12 @@ namespace WebAPI.Controllers
     {
         private IPaymentService _paymentService;
         private ITracer _tracer;
-        public PaymentController(IPaymentService paymentService,ITracer tracer)
+        private ILogger<PaymentController> _logger;
+        public PaymentController(IPaymentService paymentService,ITracer tracer, ILogger<PaymentController> logger)
         {
             _paymentService = paymentService;
             _tracer = tracer;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -34,6 +37,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public IActionResult Get([FromQuery] int pageIndex, [FromQuery] int pageSize)
         {
+            _logger.LogInformation("Index page says hello");
             var response = _paymentService.GetPayments(pageIndex, pageSize);
             return Ok(response);
         }

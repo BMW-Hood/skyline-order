@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
+using NLog.Web;
 using Repositories;
 using Repositories.Impl;
 using Services;
@@ -19,9 +22,10 @@ namespace WebAPI
         public IConfiguration Configuration { get; }
         private string connectionString;
         private string tracingCollectorString;
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            env.ConfigureNLog("nlog.config");
             connectionString = configuration.GetConnectionString("Skyline");
             tracingCollectorString = configuration.GetSection("Tracing").GetValue<string>("JaegerCollector");
         }
@@ -48,9 +52,6 @@ namespace WebAPI
             //注册metrics(监控)
             services.AddMetrics();
 
-            //注册 Logging(日志)
-            
-
             //注册Repository
             services.AddScoped<IDatabaseFactory, DatabaseFactory>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -65,7 +66,7 @@ namespace WebAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IAppSettings settings)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IAppSettings settings, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -76,6 +77,8 @@ namespace WebAPI
                 app.UseHsts();
             }
 
+            //logger日志
+            loggerFactory.AddNLog();
             app.UseJaegerTracing();
             app.UseMvc();
             app.UseMySql(connectionString);
