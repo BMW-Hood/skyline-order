@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
         private IPaymentService _paymentService;
         private ITracer _tracer;
         private ILogger<PaymentController> _logger;
-        public PaymentController(IPaymentService paymentService,ITracer tracer, ILogger<PaymentController> logger)
+        public PaymentController(IPaymentService paymentService,ITracer tracer,ILogger<PaymentController> logger)
         {
             _paymentService = paymentService;
             _tracer = tracer;

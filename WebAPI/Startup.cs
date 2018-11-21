@@ -22,10 +22,9 @@ namespace WebAPI
         public IConfiguration Configuration { get; }
         private string connectionString;
         private string tracingCollectorString;
-        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            env.ConfigureNLog("nlog.config");
             connectionString = configuration.GetConnectionString("Skyline");
             tracingCollectorString = configuration.GetSection("Tracing").GetValue<string>("JaegerCollector");
         }
@@ -78,6 +77,7 @@ namespace WebAPI
             }
 
             //logger日志
+            env.ConfigureNLog("nlog.config");
             loggerFactory.AddNLog();
             app.UseJaegerTracing();
             app.UseMvc();
