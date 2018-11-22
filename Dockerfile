@@ -22,10 +22,10 @@ RUN dotnet publish "WebAPI.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
-ENV MYSQL_CONNECTIONSTRING = "server=skyline-db;port=3306;database=skyline;user=root;password=123456;"
-ENV JAEGER_COLLECTOR_URL = "http://skyline-tracing:14268/api/traces"
-ENV INFLUXDB_URL = "http://skyline-influxdb:8086"
-ENV INFLUXDB_DATABASE = "webapi_metric"
-ENV LOGSDIR = "/temp/skyline-webapi"
+ENV MYSQL_CONNECTIONSTRING  server=skyline-db;port=3306;database=skyline;user=root;password=123456;
+ENV JAEGER_COLLECTOR_URL  http://skyline-tracing:14268/api/traces
+ENV INFLUXDB_URL  http://skyline-influxdb:8086
+ENV INFLUXDB_DATABASE  webapi_metric
+ENV LOGSDIR  /temp/skyline-webapi
 COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "WebAPI.dll"]
