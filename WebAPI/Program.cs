@@ -1,5 +1,6 @@
 ﻿using App.Metrics;
 using App.Metrics.AspNetCore;
+using Common;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using NLog.Web;
@@ -19,7 +20,7 @@ namespace WebAPI
                 //添加 Metrics(App.Metrics)
                 .ConfigureMetricsWithDefaults(builder =>
                 {
-                    builder.Report.ToInfluxDb($"http://{Environment.GetEnvironmentVariable("INFLUXDB_HOST")?? "127.0.0.1"}:8086", "metricsdatabase");
+                    builder.Report.ToInfluxDb($"http://{Environment.GetEnvironmentVariable("INFLUXDB_HOST") ?? "127.0.0.1"}:8086", "metricsdatabase");
                 })
                 .UseMetrics()
                 .UseStartup<Startup>()

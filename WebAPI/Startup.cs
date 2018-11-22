@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+
 using NLog.Extensions.Logging;
 using NLog.Web;
 using Repositories;
@@ -24,8 +24,8 @@ namespace WebAPI
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            connectionString = configuration.GetConnectionString("Skyline");
-            tracingCollectorString = configuration.GetSection("Tracing").GetValue<string>("JaegerCollector");
+            connectionString = EnvironmentHelper.GetEnvironmentVariable(configuration.GetConnectionString("Skyline"));
+            tracingCollectorString = EnvironmentHelper.GetEnvironmentVariable(configuration.GetSection("Tracing").GetValue<string>("JaegerCollector"));
         }
 
 
