@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OpenTracing;
-using System;
 using System.Collections.Generic;
 
 namespace WebAPI.Controllers
@@ -15,6 +14,7 @@ namespace WebAPI.Controllers
         {
             _tracer = tracer;
         }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
