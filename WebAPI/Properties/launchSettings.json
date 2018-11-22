@@ -9,20 +9,15 @@
   },
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "api/values",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
     "WebAPI": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "INFLUXDB_HOST": "74.82.210.81",
+        "MYSQL_CONNECTIONSTRING": "server=74.82.210.81;port=13306;database=skyline;user=root;password=123456;",
+        "JAEGER_COLLECTOR_URL": "http://74.82.210.81:14269/api/traces"
       },
       "applicationUrl": "http://localhost:5000"
     }

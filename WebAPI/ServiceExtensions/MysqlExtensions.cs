@@ -11,7 +11,7 @@ namespace WebAPI.ServiceExtensions
     {
         public static IServiceCollection AddMysql(this IServiceCollection services, string connectionString)
         {
-
+            
             services.AddDbContextPool<MySqlDbContext>(
                 options => options.UseMySql(connectionString, mysqlOptions =>
                      {

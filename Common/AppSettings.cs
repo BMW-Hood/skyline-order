@@ -2,14 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using Microsoft.Extensions.Configuration.EnvironmentVariables;
 namespace Common
 {
     public interface IAppSettings
     {
         string ConnectionString { get; }
     }
-   public class AppSettings: IAppSettings
+    public class AppSettings : IAppSettings
     {
         private const string DB = "Skyline";
         private IConfiguration _configuration;
@@ -18,7 +18,8 @@ namespace Common
             _configuration = configuration;
         }
         public string ConnectionString => _configuration.GetConnectionString(DB);
-
-
     }
+
+
+
 }
