@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using OpenTracing;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace WebAPI.Middlewares
@@ -13,9 +12,8 @@ namespace WebAPI.Middlewares
     {
         public static IApplicationBuilder UseJaegerTracing(this IApplicationBuilder builder)
         {
-           return builder.UseMiddleware<TracingMiddleWare>();         
+            return builder.UseMiddleware<TracingMiddleWare>();
         }
-
     }
 
     public class TracingMiddleWare
@@ -23,16 +21,16 @@ namespace WebAPI.Middlewares
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
         private readonly ITracer _tracer;
+
         public TracingMiddleWare(RequestDelegate next, ILoggerFactory factory, ITracer tracer)
         {
             _next = next;
             _logger = factory.CreateLogger<TracingMiddleWare>();
             _tracer = tracer;
-
         }
+
         public async Task InvokeAsync(HttpContext context)
         {
-
             _logger.LogInformation($"User IP:{context.Connection.RemoteIpAddress.ToString()}");
             var builder = _tracer.BuildSpan($"{context.Request.Method}::{context.Request.Path}");
             builder.WithTag("machine.name", "machine1").WithTag("cpu.cores", 8);
@@ -48,10 +46,6 @@ namespace WebAPI.Middlewares
             var @vent = "loop_finished";
             span.Log(DateTimeOffset.Now, @vent);
             span.Finish(DateTimeOffset.Now);
-
         }
-
     }
-
-
 }

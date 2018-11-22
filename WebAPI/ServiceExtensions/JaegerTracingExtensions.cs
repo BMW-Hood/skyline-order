@@ -21,7 +21,7 @@ namespace WebAPI.ServiceExtensions
         }
 
         private static ITracer GetTracer(string serviceName, ILoggerFactory loggerFactory, string collectorAddress)
-        {     
+        {
             Configuration.SamplerConfiguration samplerConfiguration = new Configuration.SamplerConfiguration(loggerFactory)
                 .WithParam(1)
                 .WithType("const");

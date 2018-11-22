@@ -15,5 +15,4 @@ namespace WebAPI.MvcExtentions
 
         public static ApiResponse<T> BUSINESSERROR(BusinessException exception, T data) => new ApiResponse<T> { code = exception.Descriptor.ErrorCode, message = exception.Descriptor.ErrorMessage, data = data };
     }
-
 }

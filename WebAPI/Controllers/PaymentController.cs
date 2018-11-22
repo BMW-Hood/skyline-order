@@ -1,15 +1,8 @@
-﻿using Contracts.Dtos;
-using Contracts.Requests;
-using Contracts.Responses;
+﻿using Contracts.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OpenTracing;
 using Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WebAPI.MvcExtentions;
 
 namespace WebAPI.Controllers
 {
@@ -20,7 +13,8 @@ namespace WebAPI.Controllers
         private IPaymentService _paymentService;
         private ITracer _tracer;
         private ILogger<PaymentController> _logger;
-        public PaymentController(IPaymentService paymentService,ITracer tracer,ILogger<PaymentController> logger)
+
+        public PaymentController(IPaymentService paymentService, ITracer tracer, ILogger<PaymentController> logger)
         {
             _paymentService = paymentService;
             _tracer = tracer;
@@ -41,8 +35,5 @@ namespace WebAPI.Controllers
             var response = _paymentService.GetPayments(pageIndex, pageSize);
             return Ok(response);
         }
-
-
-
     }
 }

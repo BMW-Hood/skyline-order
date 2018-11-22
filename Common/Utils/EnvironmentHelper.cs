@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Common
@@ -39,10 +38,12 @@ namespace Common
                 case "1":
                 case "yes":
                     return true;
+
                 case "false":
                 case "0":
                 case "no":
                     return false;
+
                 default:
                     return defaultValue;
             }

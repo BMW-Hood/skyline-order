@@ -1,22 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Common;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using System.Linq;
-using Common;
 
 namespace Repositories
 {
-
-
     public class Repository<T> : IRepository<T> where T : Base
     {
         protected DbSet<T> DbSet { get; private set; }
         protected MySqlDbContext dbContext;
         protected IDatabaseFactory _databaseFactory;
         private string connectionString;
+
         public Repository(IDatabaseFactory databaseFactory, IAppSettings settings)
         {
             connectionString = settings.ConnectionString;
@@ -24,7 +23,8 @@ namespace Repositories
             dbContext = DbContext;
             DbSet = dbContext.Set<T>();
         }
-        protected MySqlDbContext DbContext => dbContext ??  _databaseFactory.Get(connectionString);
+
+        protected MySqlDbContext DbContext => dbContext ?? _databaseFactory.Get(connectionString);
 
         public bool Exist(T t)
         {
@@ -131,6 +131,5 @@ namespace Repositories
             var list = query.Skip(skip).Take(pageSize);
             return (count, list == null ? new List<T>() : list.ToList());
         }
-
     }
 }

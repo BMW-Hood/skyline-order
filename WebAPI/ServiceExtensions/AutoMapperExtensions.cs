@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Contracts;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace WebAPI.ServiceExtensions
 {
     public static class AutoMapperServiceExtensions

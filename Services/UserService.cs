@@ -32,7 +32,6 @@ namespace Services
                 Phone = "18351801922"
             };
             _userRepository.Add(user);
-
         }
 
         public bool Register(RegisterRequest request)

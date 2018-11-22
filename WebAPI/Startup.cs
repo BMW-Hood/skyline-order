@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using App.Metrics;
+using Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,6 @@ using Services;
 using WebAPI.Middlewares;
 using WebAPI.ServiceExtensions;
 
-
 namespace WebAPI
 {
     public class Startup
@@ -21,15 +21,17 @@ namespace WebAPI
         public IConfiguration Configuration { get; }
         private string connectionString;
         private string tracingCollectorString;
+        private string influxdb_Host;
+        private string influxdb_Database;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
             connectionString = EnvironmentHelper.GetEnvironmentVariable(configuration.GetConnectionString("Skyline"));
             tracingCollectorString = EnvironmentHelper.GetEnvironmentVariable(configuration.GetSection("Tracing").GetValue<string>("JaegerCollector"));
+            influxdb_Host = EnvironmentHelper.GetEnvironmentVariable(configuration.GetSection("InfluxDb").GetValue<string>("Url"));
+            influxdb_Database = EnvironmentHelper.GetEnvironmentVariable(configuration.GetSection("InfluxDb").GetValue<string>("DataBase"));
         }
-
-
-
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -48,7 +50,10 @@ namespace WebAPI
             services.AddJaegerTracing(tracingCollectorString);
 
             //注册metrics(监控)
-            services.AddMetrics();
+            services.AddMetrics(builder =>
+            {
+                builder.Report.ToInfluxDb(influxdb_Host, influxdb_Database);
+            });
 
             //注册Repository
             services.AddScoped<IDatabaseFactory, DatabaseFactory>();
@@ -56,7 +61,6 @@ namespace WebAPI
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             //注册Proxy
-
 
             //注册Service
             services.AddScoped<IUserService, UserService>();
@@ -80,7 +84,6 @@ namespace WebAPI
             app.UseJaegerTracing();
             app.UseMvc();
             app.UseMySql(connectionString);
-
         }
     }
 }

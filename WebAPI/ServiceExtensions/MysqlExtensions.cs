@@ -11,7 +11,6 @@ namespace WebAPI.ServiceExtensions
     {
         public static IServiceCollection AddMysql(this IServiceCollection services, string connectionString)
         {
-            
             services.AddDbContextPool<MySqlDbContext>(
                 options => options.UseMySql(connectionString, mysqlOptions =>
                      {
@@ -24,13 +23,13 @@ namespace WebAPI.ServiceExtensions
 
     public static class MySqlApplicationBuilderExtensions
     {
-        public static IApplicationBuilder UseMySql(this IApplicationBuilder app,string connectionString)
+        public static IApplicationBuilder UseMySql(this IApplicationBuilder app, string connectionString)
         {
             var builderDb = new DbContextOptionsBuilder<MySqlDbContext>();
             builderDb.UseMySql(connectionString);
             using (var context = new MySqlDbContext(builderDb.Options))
             {
-               context.Database.Migrate();
+                context.Database.Migrate();
             }
             return app;
         }

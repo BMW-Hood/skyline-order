@@ -17,7 +17,9 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "INFLUXDB_HOST": "74.82.210.81",
         "MYSQL_CONNECTIONSTRING": "server=74.82.210.81;port=13306;database=skyline;user=root;password=123456;",
-        "JAEGER_COLLECTOR_URL": "http://74.82.210.81:14269/api/traces"
+        "JAEGER_COLLECTOR_URL": "http://74.82.210.81:14269/api/traces",
+        "INFLUXDB_URL": "http://127.0.0.1:8086",
+        "INFLUXDB_DATABASE": "webapi_metric"
       },
       "applicationUrl": "http://localhost:5000"
     }
