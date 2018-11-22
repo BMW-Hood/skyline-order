@@ -7,5 +7,5 @@ before_install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 script:
   - ls
-  - docker build -t lyrewing/skyline-webapi:1.0.1 .
-  - docker push lyrewing/skyline-webapi:1.0.1
+  - docker build -t lyrewing/skyline-webapi:1.0.2 .
+  - docker push lyrewing/skyline-webapi:1.0.2
