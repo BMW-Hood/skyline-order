@@ -15,9 +15,9 @@
       "launchUrl": "api/values",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "MYSQL_CONNECTIONSTRING": "server=74.82.210.81;port=13306;database=skyline;user=root;password=123456;",
-        "JAEGER_COLLECTOR_URL": "http://74.82.210.81:14269/api/traces",
-        "INFLUXDB_URL": "http://74.82.210.81:8086",
+        "MYSQL_CONNECTIONSTRING": "server=192.168.31.207;port=13306;database=skyline;user=root;password=123456;",
+        "JAEGER_COLLECTOR_URL": "http://192.168.31.207:14268/api/traces",
+        "INFLUXDB_URL": "http://192.168.31.207:18086",
         "INFLUXDB_DATABASE": "webapi_metric",
         "LOGSDIR": "c:/temp"
       },

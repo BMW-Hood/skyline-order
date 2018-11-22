@@ -50,10 +50,7 @@ namespace WebAPI
             services.AddJaegerTracing(tracingCollectorString);
 
             //注册metrics(监控)
-            services.AddMetrics(builder =>
-            {
-                builder.Report.ToInfluxDb(influxdb_Host, influxdb_Database);
-            });
+            services.AddMetrics();
 
             //注册Repository
             services.AddScoped<IDatabaseFactory, DatabaseFactory>();
