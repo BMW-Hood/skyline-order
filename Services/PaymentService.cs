@@ -2,6 +2,7 @@
 using Contracts.Dtos;
 using Contracts.Requests;
 using Contracts.Responses;
+using OpenTracing;
 using Repositories;
 using System.Collections.Generic;
 
@@ -17,12 +18,14 @@ namespace Services
     public class PaymentService : IPaymentService
     {
         private IPaymentRepository _paymentRepository;
-        private IMapper _mapper { get; set; }
+        private IMapper _mapper;
+        private ITracer _tracer;
 
-        public PaymentService(IPaymentRepository paymentRepository, IMapper mapper)
+        public PaymentService(IPaymentRepository paymentRepository, IMapper mapper, ITracer tracer)
         {
             _paymentRepository = paymentRepository;
             _mapper = mapper;
+            _tracer = tracer;
         }
 
         public PaymentViewResponse GetPayments(int pageIndex, int pageSize)
