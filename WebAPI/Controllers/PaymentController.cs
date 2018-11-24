@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OpenTracing;
 using Services;
+using System;
 
 namespace WebAPI.Controllers
 {
@@ -31,18 +32,9 @@ namespace WebAPI.Controllers
         [HttpGet]
         public IActionResult Get([FromQuery] int pageIndex, [FromQuery] int pageSize)
         {
-
             _logger.LogInformation("Index page says hello");
-            using (IScope parentScope = _tracer.BuildSpan("").StartActive(finishSpanOnDispose:true))
-            {
-                parentScope.Span.Log("start");
-
-                var response = _paymentService.GetPayments(pageIndex, pageSize);
-
-                parentScope.Span.Log("finish");
-                return Ok(response);
-            }
-
+            var response = _paymentService.GetPayments(pageIndex, pageSize);
+            return Ok(response);
 
         }
     }

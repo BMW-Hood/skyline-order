@@ -32,20 +32,15 @@ namespace WebAPI.Middlewares
         public async Task InvokeAsync(HttpContext context)
         {
             _logger.LogInformation($"User IP:{context.Connection.RemoteIpAddress.ToString()}");
-            var builder = _tracer.BuildSpan($"{context.Request.Method}::{context.Request.Path}");
-            builder.WithTag("machine.name", "machine1").WithTag("cpu.cores", 8);
-            var startTime = DateTimeOffset.Now;
-            var span = builder.WithStartTimestamp(startTime).Start();
-
-            var logData = new List<KeyValuePair<string, object>>();
-            logData.Add(KeyValuePair.Create<string, object>("handling number of events", 6));
-            span.Log(DateTimeOffset.Now, logData);
-
-            await _next.Invoke(context);
-
-            var @vent = "loop_finished";
-            span.Log(DateTimeOffset.Now, @vent);
-            span.Finish(DateTimeOffset.Now);
+            
+            var operation = $"{context.Request.Method}::{context.Request.Path}";
+            using (IScope parentScope = _tracer.BuildSpan(operation).StartActive(finishSpanOnDispose: true))
+            {
+                parentScope.Span.Log(DateTimeOffset.Now, "loop_start");
+                await _next.Invoke(context);
+                parentScope.Span.Log(DateTimeOffset.Now, "loop_finished");
+                parentScope.Span.Finish(DateTimeOffset.Now); 
+            }
         }
     }
 }
