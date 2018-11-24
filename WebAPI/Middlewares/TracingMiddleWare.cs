@@ -38,6 +38,7 @@ namespace WebAPI.Middlewares
             {
                 parentScope.Span.Log(DateTimeOffset.Now, "loop_start");
                 await _next.Invoke(context);
+                parentScope.Span.SetTag("HttpStatus",context.Response.StatusCode.ToString());
                 parentScope.Span.Log(DateTimeOffset.Now, "loop_finished");
                 parentScope.Span.Finish(DateTimeOffset.Now); 
             }

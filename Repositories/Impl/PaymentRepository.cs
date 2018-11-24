@@ -68,9 +68,10 @@ namespace Repositories
                 query = query.Where(x => x.PayTime > date && x.PayTime < date.Value.AddDays(1));
             }
             var count = query.Count();
-            query = query.OrderByDescending(x => x.PayTime);
-            var list = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
-            return (count, list == null ? new List<Payment>() : list.ToList());
+            query = query.OrderByDescending(x => x.PayTime).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+
+            var list = query.ToList();
+            return (count, list == null ? new List<Payment>() : list);
         }
     }
 
