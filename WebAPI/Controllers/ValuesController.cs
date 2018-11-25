@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OpenTracing;
 using System.Collections.Generic;
-
+using System;
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -19,6 +19,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            throw new Exception("test");
             return new string[] { "value1", "value2" };
         }
 

@@ -22,13 +22,24 @@ namespace WebAPI.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// 查询支付数据
+        /// </summary>
+        /// <param name="paymentQuery"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Post([FromBody]PaymentQueryRequest paymentQuery)
         {
             var response = _paymentService.QueryPayments(paymentQuery);
             return Ok(response);
         }
-
+        
+        /// <summary>
+        /// 获取支付记录
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Get([FromQuery] int pageIndex, [FromQuery] int pageSize)
         {
@@ -37,5 +48,10 @@ namespace WebAPI.Controllers
             return Ok(response);
 
         }
+
+        
+
+
+
     }
 }

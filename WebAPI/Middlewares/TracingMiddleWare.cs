@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Middlewares
 {
-    public static class TracingExtensions
+    public static class TracingExtension
     {
         public static IApplicationBuilder UseJaegerTracing(this IApplicationBuilder builder)
         {

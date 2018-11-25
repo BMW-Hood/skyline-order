@@ -11,6 +11,9 @@ using NLog.Web;
 using Repositories;
 using Repositories.Impl;
 using Services;
+using Swashbuckle.AspNetCore.Swagger;
+using System.Collections.Generic;
+using System.Linq;
 using WebAPI.Middlewares;
 using WebAPI.ServiceExtensions;
 
@@ -40,10 +43,22 @@ namespace WebAPI
         {
             //注册配置文件
             services.AddSingleton<IAppSettings, AppSettings>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info {
+                    Title = "Skyline API",
+                    Version = "v1"          
+                });
+                c.AddSecurityDefinition("UsId", new ApiKeyScheme { In = "header", Description = "Please enter UsId", Name = "x-btcapi-usid", Type = "apiKey" });
+                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
+                { "UsId", Enumerable.Empty<string>() },
+            });
 
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
             services.AddAutoMapper();
+
+
 
             //注册MySql
             services.AddMysql(connectionString);
@@ -80,10 +95,21 @@ namespace WebAPI
 
             //logger日志
             env.ConfigureNLog("nlog.config");
-            app.UseJaegerTracing();
+
+            app.UseStaticFiles();
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Skyline API v1");
+                c.RoutePrefix = "swagger";
+            });
             app.UseMvc();
+            app.UseJaegerTracing();
             app.UseMySql(connectionString);
-            app.UseConsul("");
+            app.UseConsul(consul_url);
         }
     }
 }

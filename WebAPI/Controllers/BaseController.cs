@@ -10,11 +10,11 @@ using WebAPI.MvcExtentions;
 
 namespace WebAPI.Controllers
 {
-    public class BaseController : ControllerBase, IActionFilter
+    public class BaseController : Controller
     {
-        public string UsId { get; set; }
+        protected string UsId { get; set; }
 
-        public void OnActionExecuting(ActionExecutingContext context)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
             var key = "x-btcapi-usid";
             StringValues values = new StringValues("");
@@ -34,19 +34,30 @@ namespace WebAPI.Controllers
             }
         }
 
-        public JsonResult Result(ApiResponse<string> apiResponse, HttpStatusCode statusCode)
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+
+            if (!context.ExceptionHandled && context.Exception != null)
+            {
+                context.Result = Error(context.Exception);
+                context.ExceptionHandled = true;
+            }
+        }
+
+        [NonAction]
+        protected JsonResult Result(ApiResponse<string> apiResponse, HttpStatusCode statusCode)
         {
             var result = new JsonResult(apiResponse);
             result.StatusCode = (int)statusCode;
             return result;
         }
-
+        [NonAction]
         public override OkObjectResult Ok(object value)
         {
             var result = ApiResponse<object>.SUCCESS(value);
             return base.Ok(result);
         }
-
+        [NonAction]
         private JsonResult Error(Exception exception, HttpStatusCode statusCode = HttpStatusCode.InternalServerError)
         {
             object response = null;
@@ -67,20 +78,16 @@ namespace WebAPI.Controllers
             result.StatusCode = (int)statusCode;
             return result;
         }
-
-        public BadRequestObjectResult BadRequest(object error, string message)
+        [NonAction]
+        protected BadRequestObjectResult BadRequest(object error, string message)
         {
             var result = ApiResponse<object>.ERROR(error, Code.BADREQUEST, message);
             return base.BadRequest(result);
         }
 
-        public void OnActionExecuted(ActionExecutedContext context)
-        {
-            if (!context.ExceptionHandled && context.Exception != null)
-            {
-                context.Result = Error(context.Exception);
-                context.ExceptionHandled = true;
-            }
-        }
+
+
+
+
     }
 }
