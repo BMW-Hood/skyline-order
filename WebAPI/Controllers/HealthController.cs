@@ -6,12 +6,12 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HealthController : BaseController
+    public class HealthController : Controller
     {
         [HttpGet]
-        public string Get()
+        public IActionResult Get()
         {
-            return "";            
+            return Ok("OK");            
         }
     }
 }
