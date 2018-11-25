@@ -19,7 +19,8 @@
         "JAEGER_COLLECTOR_URL": "http://192.168.31.207:14268/api/traces",
         "INFLUXDB_URL": "http://192.168.31.207:18086",
         "INFLUXDB_DATABASE": "webapi_metric",
-        "LOGSDIR": "c:/temp"
+        "LOGSDIR": "c:/temp",
+        "CONSUL_URL":"http://192.168.31.207:18086"
       },
       "applicationUrl": "http://localhost:5000"
     }

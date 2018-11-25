@@ -23,6 +23,7 @@ namespace WebAPI
         private string tracingCollectorString;
         private string influxdb_Host;
         private string influxdb_Database;
+        private string consul_url;
 
         public Startup(IConfiguration configuration)
         {
@@ -31,6 +32,7 @@ namespace WebAPI
             tracingCollectorString = EnvironmentHelper.GetEnvironmentVariable(configuration.GetSection("Tracing").GetValue<string>("JaegerCollector"));
             influxdb_Host = EnvironmentHelper.GetEnvironmentVariable(configuration.GetSection("InfluxDb").GetValue<string>("Url"));
             influxdb_Database = EnvironmentHelper.GetEnvironmentVariable(configuration.GetSection("InfluxDb").GetValue<string>("DataBase"));
+            consul_url = EnvironmentHelper.GetEnvironmentVariable(configuration.GetSection("Consul").GetValue<string>("Url"));
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -81,6 +83,7 @@ namespace WebAPI
             app.UseJaegerTracing();
             app.UseMvc();
             app.UseMySql(connectionString);
+            app.UseConsul("");
         }
     }
 }
