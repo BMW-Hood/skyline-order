@@ -10,9 +10,6 @@ using Rabbit.Extensions.Configuration;
 using Repositories;
 using Repositories.Impl;
 using Services;
-using Swashbuckle.AspNetCore.Swagger;
-using System.Collections.Generic;
-using System.Linq;
 using WebAPI.Middlewares;
 using WebAPI.ServiceExtensions;
 
