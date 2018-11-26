@@ -52,6 +52,10 @@ namespace WebAPI
             //注册metrics(监控)
             services.AddMetrics();
 
+
+            //注册 Polly
+            services.AddPollyHttpClient();
+
             //注册Repository
             services.AddScoped<IDatabaseFactory, DatabaseFactory>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
