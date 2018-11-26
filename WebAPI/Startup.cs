@@ -82,16 +82,8 @@ namespace WebAPI
             //logger日志
             env.ConfigureNLog("nlog.config");
 
- 
             app.UseSwaggerConfig(settings.EnableSwaggerDocument);
 
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Skyline API v1");
-                c.RoutePrefix = "swagger";
-            });
             app.UseMvc();
             app.UseJaegerTracing();
             app.UseMySql(connectionString);
