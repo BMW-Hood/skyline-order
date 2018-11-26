@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using OpenTracing;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace WebAPI.Middlewares
@@ -32,15 +31,15 @@ namespace WebAPI.Middlewares
         public async Task InvokeAsync(HttpContext context)
         {
             _logger.LogInformation($"User IP:{context.Connection.RemoteIpAddress.ToString()}");
-            
+
             var operation = $"{context.Request.Method}::{context.Request.Path}";
             using (IScope parentScope = _tracer.BuildSpan(operation).StartActive(finishSpanOnDispose: true))
             {
                 parentScope.Span.Log(DateTimeOffset.Now, "loop_start");
                 await _next.Invoke(context);
-                parentScope.Span.SetTag("HttpStatus",context.Response.StatusCode.ToString());
+                parentScope.Span.SetTag("HttpStatus", context.Response.StatusCode.ToString());
                 parentScope.Span.Log(DateTimeOffset.Now, "loop_finished");
-                parentScope.Span.Finish(DateTimeOffset.Now); 
+                parentScope.Span.Finish(DateTimeOffset.Now);
             }
         }
     }

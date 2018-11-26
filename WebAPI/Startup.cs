@@ -1,13 +1,12 @@
-﻿using App.Metrics;
-using Common;
+﻿using Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
 using NLog.Extensions.Logging;
 using NLog.Web;
+using Rabbit.Extensions.Configuration;
 using Repositories;
 using Repositories.Impl;
 using Services;
@@ -16,7 +15,6 @@ using System.Collections.Generic;
 using System.Linq;
 using WebAPI.Middlewares;
 using WebAPI.ServiceExtensions;
-using Rabbit.Extensions.Configuration;
 
 namespace WebAPI
 {
@@ -33,7 +31,7 @@ namespace WebAPI
         {
             Configuration = configuration.EnableTemplateSupport();
             connectionString = configuration.GetConnectionString("Skyline");
-            tracingCollectorString =configuration.GetSection("Tracing").GetValue<string>("JaegerCollector");
+            tracingCollectorString = configuration.GetSection("Tracing").GetValue<string>("JaegerCollector");
             influxdb_Host = configuration.GetSection("InfluxDb").GetValue<string>("Url");
             influxdb_Database = configuration.GetSection("InfluxDb").GetValue<string>("DataBase");
             consul_option = configuration.GetSection("Consul").Get<RegistyOption>();
@@ -44,23 +42,10 @@ namespace WebAPI
         {
             //注册配置文件
             services.AddSingleton<IAppSettings, AppSettings>();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info {
-                    Title = "Skyline API",
-                    Version = "v1"          
-                });
-                c.AddSecurityDefinition("UsId", new ApiKeyScheme { In = "header", Description = "Please enter UsId", Name = "x-btcapi-usid", Type = "apiKey" });
-                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
-                { "UsId", Enumerable.Empty<string>() },
-            });
 
-            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddAutoMapper();
-
-
-
+            services.AddSwagger();
             //注册MySql
             services.AddMysql(connectionString);
 
@@ -97,10 +82,10 @@ namespace WebAPI
             //logger日志
             env.ConfigureNLog("nlog.config");
 
-            app.UseStaticFiles();
-            app.UseSwagger();
+ 
+            app.UseSwaggerConfig(settings.EnableSwaggerDocument);
 
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OpenTracing;
 using Services;
-using System;
 
 namespace WebAPI.Controllers
 {
@@ -33,7 +32,7 @@ namespace WebAPI.Controllers
             var response = _paymentService.QueryPayments(paymentQuery);
             return Ok(response);
         }
-        
+
         /// <summary>
         /// 获取支付记录
         /// </summary>
@@ -46,12 +45,6 @@ namespace WebAPI.Controllers
             _logger.LogInformation("Index page says hello");
             var response = _paymentService.GetPayments(pageIndex, pageSize);
             return Ok(response);
-
         }
-
-        
-
-
-
     }
 }

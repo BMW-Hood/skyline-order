@@ -5,6 +5,7 @@ namespace Common
     public interface IAppSettings
     {
         string ConnectionString { get; }
+        bool EnableSwaggerDocument { get; }
     }
 
     public class AppSettings : IAppSettings
@@ -18,5 +19,6 @@ namespace Common
         }
 
         public string ConnectionString => _configuration.GetConnectionString(DB);
+        public bool EnableSwaggerDocument => _configuration.GetValue<bool>("EnableSwaggerDocument");
     }
 }
