@@ -13,7 +13,7 @@ namespace WebAPI.Policies
 
         public static IPolicyRegistry<string> AddBasicRetryPolicy(this IPolicyRegistry<string> policyRegistry)
         {
-            var PolicyName = "";
+            var PolicyName = PolicyNames.RetryPolicy;
             var retryPolicy = Policy
                 .Handle<Exception>()
                 .OrResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
