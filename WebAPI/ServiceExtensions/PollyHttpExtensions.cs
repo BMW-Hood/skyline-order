@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using System;
+using WebAPI.Policies;
 
 namespace WebAPI.ServiceExtensions
 {
@@ -9,12 +10,8 @@ namespace WebAPI.ServiceExtensions
     {
         public static IServiceCollection AddPollyHttpClient(this IServiceCollection services)
         {
-            //创建Polly
-            services.AddPolicyRegistry();
 
-
-
-            //
+            //Provider
             services.AddHttpClient("UserService", client =>
             {
                 client.BaseAddress = new Uri("http://localhost:5000/");
@@ -27,6 +24,11 @@ namespace WebAPI.ServiceExtensions
                 }
                 ));
 
+
+
+            //创建Polly
+            var registry= services.AddPolicyRegistry();
+            registry.AddBasicRetryPolicy();
 
 
 
