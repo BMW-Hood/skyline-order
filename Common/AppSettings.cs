@@ -17,6 +17,6 @@ namespace Common
             _configuration = configuration;
         }
 
-        public string ConnectionString => EnvironmentHelper.GetEnvironmentVariable(_configuration.GetConnectionString(DB));
+        public string ConnectionString => _configuration.GetConnectionString(DB);
     }
 }

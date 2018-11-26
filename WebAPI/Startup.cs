@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WebAPI.Middlewares;
 using WebAPI.ServiceExtensions;
+using Rabbit.Extensions.Configuration;
 
 namespace WebAPI
 {
@@ -30,11 +31,11 @@ namespace WebAPI
 
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
-            connectionString = EnvironmentHelper.GetEnvironmentVariable(configuration.GetConnectionString("Skyline"));
-            tracingCollectorString = EnvironmentHelper.GetEnvironmentVariable(configuration.GetSection("Tracing").GetValue<string>("JaegerCollector"));
-            influxdb_Host = EnvironmentHelper.GetEnvironmentVariable(configuration.GetSection("InfluxDb").GetValue<string>("Url"));
-            influxdb_Database = EnvironmentHelper.GetEnvironmentVariable(configuration.GetSection("InfluxDb").GetValue<string>("DataBase"));
+            Configuration = configuration.EnableTemplateSupport();
+            connectionString = configuration.GetConnectionString("Skyline");
+            tracingCollectorString =configuration.GetSection("Tracing").GetValue<string>("JaegerCollector");
+            influxdb_Host = configuration.GetSection("InfluxDb").GetValue<string>("Url");
+            influxdb_Database = configuration.GetSection("InfluxDb").GetValue<string>("DataBase");
             consul_option = configuration.GetSection("Consul").Get<RegistyOption>();
         }
 
