@@ -1,4 +1,5 @@
-﻿using Polly;
+﻿using Common;
+using Polly;
 using Polly.Registry;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace WebAPI.Policies
 
         public static IPolicyRegistry<string> AddBasicRetryPolicy(this IPolicyRegistry<string> policyRegistry)
         {
-            var PolicyName = PolicyNames.RetryPolicy;
+            var PolicyName = Common.PolicyName.RetryPolicy;
             var retryPolicy = Policy
                 .Handle<Exception>()
                 .OrResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
@@ -35,6 +36,19 @@ namespace WebAPI.Policies
 
             return policyRegistry;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 }

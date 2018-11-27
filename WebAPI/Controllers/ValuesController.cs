@@ -3,6 +3,9 @@ using OpenTracing;
 using System.Collections.Generic;
 using System;
 using Polly.Registry;
+using Polly;
+using WebAPI.Policies;
+using System.Net.Http;
 
 namespace WebAPI.Controllers
 {
@@ -11,10 +14,8 @@ namespace WebAPI.Controllers
     public class ValuesController : BaseController
     {
         private ITracer _tracer;
-        private readonly IReadOnlyPolicyRegistry<string> _policyRegistry;
-        public ValuesController(ITracer tracer,IReadOnlyPolicyRegistry<string> policyRegistry)
+        public ValuesController(ITracer tracer)
         {
-            _policyRegistry = policyRegistry;
             _tracer = tracer;
         }
 
@@ -22,7 +23,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-           
+
             return new string[] { "value1", "value2" };
         }
 

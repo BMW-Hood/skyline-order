@@ -1,6 +1,6 @@
-namespace WebAPI.Policies
+namespace Common
 {
-    public static class PolicyNames
+    public static class PolicyName
     {
         public const string RetryPolicy= "RetryPolicy";
         

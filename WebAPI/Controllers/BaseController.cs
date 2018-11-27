@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
             return base.Ok(result);
         }
         [NonAction]
-        private JsonResult Error(Exception exception, HttpStatusCode statusCode = HttpStatusCode.InternalServerError)
+        protected JsonResult Error(Exception exception, HttpStatusCode statusCode = HttpStatusCode.InternalServerError)
         {
             object response = null;
             //解析错误
