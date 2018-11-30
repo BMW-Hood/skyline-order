@@ -21,11 +21,10 @@ namespace WebAPI.ServiceExtensions
                 tracer = GetTracer(serviceName, loggerFactory, collectionStr);
 
                 //添加OpenTracing拦截器
-                //services.AddSingleton<TracingInterceptorAttribute>(provider => new TracingInterceptorAttribute() { Tracer=tracer});
-                //services.ConfigureDynamicProxy(config =>
-                //{
-                //    config.Interceptors.AddServiced<TracingInterceptorAttribute>();
-                //});
+                services.ConfigureDynamicProxy(config =>
+                {
+                    config.Interceptors.AddTyped<TracingInterceptorAttribute>();
+                });
                 return tracer;
             });
 

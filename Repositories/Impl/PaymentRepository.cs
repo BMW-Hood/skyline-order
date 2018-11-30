@@ -32,7 +32,7 @@ namespace Repositories
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-
+        [TracingInterceptor(Name = "MYSQL GetPayments")]
         (int total, IList<Payment> payments) GetPayments(int pageIndex, int pageSize);
     }
 

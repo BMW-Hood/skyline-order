@@ -33,23 +33,17 @@ namespace Services
 
         public PaymentViewResponse GetPayments(int pageIndex, int pageSize)
         {
-            using (IScope childScope = _tracer.BuildSpan("MySql SELECT").StartActive(finishSpanOnDispose: true))
+            var result = _paymentRepository.GetPayments(pageIndex, pageSize);
+            var total = result.total;
+            var payments = _mapper.Map<IList<PaymentDto>>(result.payments);
+            PaymentViewResponse response = new PaymentViewResponse()
             {
-                childScope.Span.Log(DateTimeOffset.Now, "Msql Start");
-                var result = _paymentRepository.GetPayments(pageIndex, pageSize);
-                childScope.Span.Log(DateTimeOffset.Now, "Msql Finish");
-                var total = result.total;
-                var payments = _mapper.Map<IList<PaymentDto>>(result.payments);
-                PaymentViewResponse response = new PaymentViewResponse()
-                {
-                    PageIndex = pageIndex,
-                    PageSize = pageSize,
-                    Payments = payments,
-                    Total = total
-                };
-                return response;
-            }
-
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                Payments = payments,
+                Total = total
+            };
+            return response;
         }
 
         public PaymentViewResponse QueryPayments(PaymentQueryRequest request)

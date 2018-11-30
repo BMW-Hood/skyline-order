@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using AspectCore.Extensions.DependencyInjection;
+using Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using Rabbit.Extensions.Configuration;
 using Repositories;
 using Repositories.Impl;
 using Services;
+using System;
 using WebAPI.Middlewares;
 using WebAPI.ServiceExtensions;
 
@@ -35,7 +37,7 @@ namespace WebAPI
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             //注册配置文件
             services.AddSingleton<IAppSettings, AppSettings>();
@@ -46,12 +48,8 @@ namespace WebAPI
             //注册MySql
             services.AddMysql(connectionString);
 
-            //注册 Tracing(跟踪)
-            services.AddJaegerTracing(tracingCollectorString);
-
             //注册metrics(监控)
             services.AddMetrics();
-
 
             //注册 Polly
             services.AddPollyHttpClient();
@@ -66,6 +64,10 @@ namespace WebAPI
             //注册Service
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPaymentService, PaymentService>();
+
+            //注册 Tracing(跟踪)
+            services.AddJaegerTracing(tracingCollectorString);
+            return services.BuildAspectInjectorProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

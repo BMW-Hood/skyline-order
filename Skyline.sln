@@ -9,13 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repositories\Repositories.csproj", "{D27F900A-9961-4A1B-AB58-3F5416FF4D9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{F76106DF-1497-4DCD-A634-BAB2F94B1CAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{F76106DF-1497-4DCD-A634-BAB2F94B1CAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{2BFB3BFA-328E-45EF-8488-E8A918530BDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{2BFB3BFA-328E-45EF-8488-E8A918530BDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Providers", "Provider\Providers.csproj", "{B14AAD91-DDCB-467A-92B6-A4DEF837346E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Providers", "Provider\Providers.csproj", "{B14AAD91-DDCB-467A-92B6-A4DEF837346E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{B45902C0-D7B7-41A7-976F-9A1548B01682}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Contracts\Contracts.csproj", "{B45902C0-D7B7-41A7-976F-9A1548B01682}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
