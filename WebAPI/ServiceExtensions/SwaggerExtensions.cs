@@ -17,15 +17,16 @@ namespace WebAPI.ServiceExtensions
                     Title = "Skyline API",
                     Version = "v1"
                 });
+
                 c.AddSecurityDefinition("UsId", new ApiKeyScheme { In = "header", Description = "Please enter UsId", Name = "x-btcapi-usid", Type = "apiKey" });
                 c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
-                { "UsId", Enumerable.Empty<string>() },
-            });
+                { "UsId", Enumerable.Empty<string>() }, });
+
             });
             return services;
         }
 
-        public static IApplicationBuilder UseSwaggerConfig(this IApplicationBuilder app,bool enableSwagger)
+        public static IApplicationBuilder UseSwaggerConfig(this IApplicationBuilder app, bool enableSwagger)
         {
             if (enableSwagger)
             {
@@ -38,7 +39,7 @@ namespace WebAPI.ServiceExtensions
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Skyline API v1");
                     c.RoutePrefix = "swagger";
                 });
-                
+
             }
             return app;
 

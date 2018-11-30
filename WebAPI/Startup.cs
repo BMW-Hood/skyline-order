@@ -82,11 +82,9 @@ namespace WebAPI
 
             //logger日志
             env.ConfigureNLog("nlog.config");
-
             app.UseSwaggerConfig(settings.EnableSwaggerDocument);
-
-            app.UseMvc();
             app.UseJaegerTracing();
+            app.UseMvc();
             app.UseMySql(connectionString);
             app.UseConsul(consul_option);
         }

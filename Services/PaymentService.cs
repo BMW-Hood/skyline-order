@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Interceptors;
 using Contracts.Dtos;
 using Contracts.Requests;
 using Contracts.Responses;
@@ -11,6 +12,7 @@ namespace Services
 {
     public interface IPaymentService
     {
+
         PaymentViewResponse GetPayments(int pageIndex, int pageSize);
 
         PaymentViewResponse QueryPayments(PaymentQueryRequest request);

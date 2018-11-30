@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Linq.Expressions;
 using Common.CustomExceptions;
+using Common.Interceptors;
 
 namespace Repositories
 {
@@ -31,6 +32,7 @@ namespace Repositories
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
+
         (int total, IList<Payment> payments) GetPayments(int pageIndex, int pageSize);
     }
 
@@ -40,8 +42,7 @@ namespace Repositories
         {
         }
 
-
-        public (int, IList<Payment>) GetPayments(int pageIndex, int pageSize)
+        public virtual (int, IList<Payment>) GetPayments(int pageIndex, int pageSize)
         {
             //throw new BusinessException(BusinessException.ErrorDescriptor.USER_NOT_LOGIN);
             var pageData = GetListByPage(x => true, x => x.PayTime, pageIndex, pageSize);

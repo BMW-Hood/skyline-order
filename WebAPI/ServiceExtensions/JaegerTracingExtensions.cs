@@ -1,4 +1,7 @@
-﻿using Jaeger;
+﻿using AspectCore.Configuration;
+using AspectCore.Extensions.DependencyInjection;
+using Common.Interceptors;
+using Jaeger;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -10,13 +13,23 @@ namespace WebAPI.ServiceExtensions
     {
         public static IServiceCollection AddJaegerTracing(this IServiceCollection services, string collectionStr)
         {
+            ITracer tracer;
             services.AddSingleton<ITracer>(serviceProvider =>
             {
                 ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
                 string serviceName = serviceProvider.GetRequiredService<IHostingEnvironment>().ApplicationName;
-                var tracer = GetTracer(serviceName, loggerFactory, collectionStr);
+                tracer = GetTracer(serviceName, loggerFactory, collectionStr);
+
+                //添加OpenTracing拦截器
+                //services.AddSingleton<TracingInterceptorAttribute>(provider => new TracingInterceptorAttribute() { Tracer=tracer});
+                //services.ConfigureDynamicProxy(config =>
+                //{
+                //    config.Interceptors.AddServiced<TracingInterceptorAttribute>();
+                //});
                 return tracer;
             });
+
+
             return services;
         }
 
