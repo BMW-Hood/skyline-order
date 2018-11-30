@@ -3,6 +3,7 @@ using Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NLog.Extensions.Logging;
@@ -41,15 +42,18 @@ namespace WebAPI
         {
             //注册配置文件
             services.AddSingleton<IAppSettings, AppSettings>();
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
             //跨域访问
             services.AddCors(options=>
                 options.AddPolicy("AllowAnyOrigins",builder=>{
-                    builder.AllowAnyOrigin();
+                    builder.AllowAnyOrigin().AllowAnyHeader();
                 })
             );
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAnyOrigins"));
+            });
+
 
             services.AddAutoMapper();
             services.AddSwagger();
@@ -94,8 +98,8 @@ namespace WebAPI
             env.ConfigureNLog("nlog.config");
             app.UseSwaggerConfig(settings.EnableSwaggerDocument);
             app.UseJaegerTracing();
+            app.UseCors("AllowAnyOrigins");        
             app.UseMvc();
-            app.UseCors("AllowAnyOrigins");   
             app.UseMySql(connectionString);
             app.UseConsul(consul_option);
 
