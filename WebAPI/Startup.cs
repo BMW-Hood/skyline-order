@@ -43,6 +43,14 @@ namespace WebAPI
             services.AddSingleton<IAppSettings, AppSettings>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            //跨域访问
+            services.AddCors(options=>
+                options.AddPolicy("AllowAnyOrigins",builder=>{
+                    builder.AllowAnyOrigin();
+                })
+            );
+
             services.AddAutoMapper();
             services.AddSwagger();
             //注册MySql
@@ -87,8 +95,10 @@ namespace WebAPI
             app.UseSwaggerConfig(settings.EnableSwaggerDocument);
             app.UseJaegerTracing();
             app.UseMvc();
+            app.UseCors("AllowAnyOrigins");   
             app.UseMySql(connectionString);
             app.UseConsul(consul_option);
+
         }
     }
 }
