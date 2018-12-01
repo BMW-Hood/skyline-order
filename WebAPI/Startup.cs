@@ -43,16 +43,21 @@ namespace WebAPI
             //注册配置文件
             services.AddSingleton<IAppSettings, AppSettings>();
             //跨域访问
-            services.AddCors(options=>
-                options.AddPolicy("AllowAnyOrigins",builder=>{
-                    builder.AllowAnyOrigin().AllowAnyHeader();
-                })
-            );
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.Configure<MvcOptions>(options =>
+             services.AddCors(options =>
             {
-                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAnyOrigins"));
+                options.AddPolicy("any", builder =>
+                {
+                    builder.AllowAnyOrigin() //允许任何来源的主机访问
+                    //builder.WithOrigins("http://localhost:8080") ////允许http://localhost:8080的主机访问
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();//指定处理cookie        
+                });
             });
+
+
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
 
             services.AddAutoMapper();
@@ -98,7 +103,7 @@ namespace WebAPI
             env.ConfigureNLog("nlog.config");
             app.UseSwaggerConfig(settings.EnableSwaggerDocument);
             app.UseJaegerTracing();
-            app.UseCors("AllowAnyOrigins");        
+            app.UseCors("any");      
             app.UseMvc();
             app.UseMySql(connectionString);
             app.UseConsul(consul_option);

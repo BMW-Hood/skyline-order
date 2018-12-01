@@ -4,7 +4,6 @@ using Services;
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
     public class UserController : BaseController
     {
         [HttpPost]

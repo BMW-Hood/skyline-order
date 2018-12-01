@@ -1,5 +1,6 @@
 ﻿using Common;
 using Common.CustomExceptions;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Primitives;
@@ -10,6 +11,8 @@ using WebAPI.MvcExtentions;
 
 namespace WebAPI.Controllers
 {
+    [EnableCors("any")]
+    [ApiController]
     public class BaseController : Controller
     {
         protected string UsId { get; set; }
