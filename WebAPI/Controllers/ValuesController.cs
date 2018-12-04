@@ -10,7 +10,6 @@ using System.Net.Http;
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
     public class ValuesController : BaseController
     {
         private ITracer _tracer;

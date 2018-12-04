@@ -3,6 +3,7 @@ using Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NLog.Extensions.Logging;
@@ -41,8 +42,24 @@ namespace WebAPI
         {
             //注册配置文件
             services.AddSingleton<IAppSettings, AppSettings>();
+            //跨域访问
+             services.AddCors(options =>
+            {
+                options.AddPolicy("any", builder =>
+                {
+                    builder.AllowAnyOrigin() //允许任何来源的主机访问
+                    //builder.WithOrigins("http://localhost:8080") ////允许http://localhost:8080的主机访问
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();//指定处理cookie        
+                });
+            });
+
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+
             services.AddAutoMapper();
             services.AddSwagger();
             //注册MySql
@@ -86,9 +103,11 @@ namespace WebAPI
             env.ConfigureNLog("nlog.config");
             app.UseSwaggerConfig(settings.EnableSwaggerDocument);
             app.UseJaegerTracing();
+            app.UseCors("any");      
             app.UseMvc();
             app.UseMySql(connectionString);
             app.UseConsul(consul_option);
+
         }
     }
 }

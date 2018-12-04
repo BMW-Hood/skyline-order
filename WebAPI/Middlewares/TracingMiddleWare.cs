@@ -30,9 +30,9 @@ namespace WebAPI.Middlewares
 
         public async Task InvokeAsync(HttpContext context)
         {
-            _logger.LogInformation($"User IP:{context.Connection.RemoteIpAddress.ToString()}");
-
-            var operation = $"{context.Request.Method}::{context.Request.Path}";
+            var ip = context.Connection.RemoteIpAddress.ToString();
+            var operation = $"{context.Request.Method}::{context.Request.Path.ToString().ToLower()}";         
+            _logger.LogInformation($"User IP:{ip}");
             using (IScope parentScope = _tracer.BuildSpan(operation).StartActive(finishSpanOnDispose: true))
             {
                 parentScope.Span.Log(DateTimeOffset.Now, "loop_start");

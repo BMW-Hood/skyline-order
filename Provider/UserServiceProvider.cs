@@ -18,6 +18,7 @@ namespace Providers
         public UserServiceProvider(IHttpClientFactory factory, IReadOnlyPolicyRegistry<string> policyRegistry)
         {
             _factory = factory;
+            _policyRegistry=policyRegistry;
         }
 
         public Task<string> GetAllUsers()
