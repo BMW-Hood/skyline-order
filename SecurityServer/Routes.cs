@@ -21,8 +21,18 @@ namespace SecurityServer
             });
 
 
+            builder.Use( (context,next)=> {
+                Console.WriteLine("start");
+                return next();
+
+            } );
 
 
+            builder.Use(handler=> {
+                Console.WriteLine("start");
+                return handler;
+
+            });
 
 
             return builder;
